@@ -1,4 +1,6 @@
+import java.util.*;
 public class Homework17 {
+//George Doster v2
 
 	/* Given an array of ints, is it possible to choose a
 	 * group of some of the ints, such that the group sums
@@ -20,7 +22,17 @@ public class Homework17 {
 
 
 	public static boolean problem1(int start, int[] nums, int target) {
-		return false;
+		if (start == nums.length){
+			return false;
+		}else if(nums[start] == target){
+			return true;
+		}else if(problem1(start + 1, nums, target - nums[start])){
+			return true;
+		}else if(problem1(start + 1, nums, target)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/* Given an array of ints, is it possible to choose a
@@ -35,7 +47,19 @@ public class Homework17 {
 	 */
 
 	 public static boolean problem2(int start, int[] nums, int target) {
-		 return false;
+		 if(start == nums.length){
+			 return false;
+		 }else if(nums[start] == target){
+			 return true;
+		 }else if(nums[start] == 6){
+			 return(problem2(start + 1, nums, target - 6));
+		 }else if(problem2(start + 1, nums, target - nums[start])){
+			 return true;
+		 }else if(problem2(start +1, nums, target)){
+			 return true;
+		 }else{
+			 return false;
+		 }
  	}
 
 	/* Given an array of ints, is it possible to divide the
@@ -52,11 +76,19 @@ public class Homework17 {
 	 */
 
 	public static boolean problem3(int[] nums) {
-		return false;
+		return problem3(nums, 0, 0, 0);
 	}
 
-	public static boolean problem3(/* parameters */) {
-		return false;
+	public static boolean problem3(int[] nums, int start, int left, int right) {
+		if(start == nums.length){
+			return left == right;
+		}else if(problem3(nums, start + 1, left + nums[start], right )){
+			return true;
+		}else if(problem3(nums, start + 1, left, right + nums[start])){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 
@@ -76,10 +108,85 @@ public class Homework17 {
 	 * problem4(0, [2, 4, 4, 8], 14) → false
 	 */
 
-	public static boolean problem4(int start, int[] nums, int target) {
-		return false;
+/*	public static boolean problem4(int start, int[] nums, int target) {
+		int tot = 0;
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		int x = 1;
+		while(x < nums.length){
+			if(nums[x] == nums[x - 1]){
+				tot += nums[x];
+			}else{
+				list.add(nums[x]);
+			}
+			x++;
+		}
+	list.add(tot);
+
+	int[] newArr = new int[list.size()];
+	for(int i = 0; i< list.size(); i++){
+		newArr[i] = list.get(i);
+	}
+	return problem4Help(start, newArr, target);
 	}
 
+	public static boolean problem4Help(int start, int[] nums, int target){
+		if(start == nums.length){
+		 return false;
+		}else if(nums[start] == target){
+			 return true;
+		} else if(problem4Help(start + 1, nums, target - nums[start])){ //include it
+		 return true;
+		} else if(problem4Help(start + 1, nums, target)){ //don't include it
+		 return false;
+		}else{
+		 return false;
+		}
+	}
+*/
+public static boolean problem4(int start, int[] nums, int target) {
+		int sum = 0;
+		ArrayList<Integer> newlist = new ArrayList<Integer>();
+		int i = 1;
+		while(i < nums.length){
+			if(nums[i] == nums[i - 1]){
+					sum += nums[i];
+				}
+			else{
+				newlist.add(nums[i]);
+			}
+			i++;
+		}
+		newlist.add(sum);
+
+		int[] newArr = new int[newlist.size()];
+		for(int g = 0; g < newlist.size(); g++){
+				newArr[g] = newlist.get(g);
+		}
+		return problem4Help(start, newArr, target);
+	}
+
+
+	public static boolean problem4Help(int start, int[] nums, int target){
+		if(start == nums.length){
+		 return false;
+		}
+
+	 else if(nums[start] == target){
+			 return true;
+		}
+
+	 else if(problem4Help(start + 1, nums, target - nums[start])){ //include it
+		 return true;
+		}
+
+	 else if(problem4Help(start + 1, nums, target)){ //don't include it
+		 return false;
+		}
+
+	 else{
+		 return false;
+		}
+	}
 	/* Given an array of ints, is it possible to divide
 	 * the ints into two groups, so that the sum of one
 	 * group is a multiple of 10, and the sum of the
@@ -95,11 +202,19 @@ public class Homework17 {
 	 */
 
 	public static boolean problem5(int[] nums) {
-		return false;
+		return problem5(nums, 0, 0, 0);
 	}
 
-	public static boolean problem5(/* parameters */) {
-		return false;
+	public static boolean problem5(int[] nums, int start, int left, int right) {
+		if (nums[start] == nums.length){
+			return (left % 10 == 0 && right % 2 != 0) || (right % 10 == 0 && left % 2 != 0);
+		}else if (problem5(nums, start + 1, left + nums[start], right)){
+			return true;
+		}else if (problem5(nums, start + 1, left, right + nums[start])){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	public static void main(String[] args) {
